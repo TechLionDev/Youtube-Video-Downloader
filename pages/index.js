@@ -11,23 +11,25 @@ const Home = () => {
 	async function getVideoData(youtubeUrl) {
 		const response = await fetch('https://www.youtube.com/youtubei/v1/player?key=AIzaSyA8eiZmM1FaDVjRy-df2KTyQ_vz_yYM39w', {
 			method: 'POST',
-			headers: {
-				'User-Agent': 'com.google.android.youtube/17.36.4 (Linux; U; Android 12; GB) gzip'
-			},
 			body: JSON.stringify({
 				"videoId": getYouTubeVideoId(youtubeUrl),
 				"context": {
-					"client": {
-						"clientName": "ANDROID",
-						"clientVersion": "17.10.35",
-						"androidSdkVersion": 30
-					}
-				}
+    "client": {
+      "clientName": "TVHTML5_SIMPLY_EMBEDDED_PLAYER",
+      "clientVersion": "2.0"
+    },
+    "thirdParty": {
+      "embedUrl": "https://www.youtube.com"
+    }
+  }
 			}),
 		})
 		const data = await response.json();
 		
-		return data
+		let videoData = data.streamingData.adaptiveFormats[0]
+		let videoDetails = data.videoDetails
+
+		return { videoData, videoDetails }
 	}
 	
 	function getYouTubeVideoId(youtubeUrl) {
@@ -40,6 +42,7 @@ const Home = () => {
 		if (isValidYouTubeUrl(url)) {
 			let data = await getVideoData(url);
 			console.log(data);
+			window.open(data.videoData.url, '_blank');
 		} else {
 			alert('Invalid YouTube URL')
         }
