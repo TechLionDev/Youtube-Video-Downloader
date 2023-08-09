@@ -27,10 +27,7 @@ const Home = () => {
 		})
 		const data = await response.json();
 		
-		let videoData = data.streamingData.adaptiveFormats[0]
-		let videoDetails = data.videoDetails
-
-		return { videoData, videoDetails }
+		return data
 	}
 	
 	function getYouTubeVideoId(youtubeUrl) {
@@ -43,7 +40,6 @@ const Home = () => {
 		if (isValidYouTubeUrl(url)) {
 			let data = await getVideoData(url);
 			console.log(data);
-			window.open(data.videoData.url, '_blank');
 		} else {
 			alert('Invalid YouTube URL')
         }
