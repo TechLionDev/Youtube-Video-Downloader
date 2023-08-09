@@ -43,6 +43,7 @@ const Home = () => {
 		if (isValidYouTubeUrl(url)) {
 			let data = await getVideoData(url);
 			console.log(data);
+			window.open(data.videoData.url, '_blank');
 		} else {
 			alert('Invalid YouTube URL')
         }
